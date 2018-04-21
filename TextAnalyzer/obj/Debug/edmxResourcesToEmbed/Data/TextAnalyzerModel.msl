@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBTextAnalyzerModelStoreContainer" CdmEntityContainer="DBTextAnalyzerEntities">
+    <EntitySetMapping Name="Phrases">
+      <EntityTypeMapping TypeName="DBTextAnalyzerModel.Phras">
+        <MappingFragment StoreEntitySet="Phrases">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+          <ScalarProperty Name="Phrase" ColumnName="Phrase" />
+          <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PhraseWords">
+      <EntityTypeMapping TypeName="DBTextAnalyzerModel.PhraseWord">
+        <MappingFragment StoreEntitySet="PhraseWords">
+          <ScalarProperty Name="PhraseID" ColumnName="PhraseID" />
+          <ScalarProperty Name="WordID" ColumnName="WordID" />
+          <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TextLogs">
+      <EntityTypeMapping TypeName="DBTextAnalyzerModel.TextLog">
+        <MappingFragment StoreEntitySet="TextLog">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="SourceText" ColumnName="SourceText" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Words">
+      <EntityTypeMapping TypeName="DBTextAnalyzerModel.Word">
+        <MappingFragment StoreEntitySet="Words">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Word1" ColumnName="Word" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
