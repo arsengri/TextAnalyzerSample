@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a61d3570f3264d2fb0586e12a349c86d" Name="Diagram1">
+        <EntityTypeShape EntityType="DBTextAnalyzerModel.Phras" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBTextAnalyzerModel.PhraseWord" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBTextAnalyzerModel.TextLog" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBTextAnalyzerModel.Word" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="DBTextAnalyzerModel.FK_Phrases_TextLog" ManuallyRouted="false" />
+        <AssociationConnector Association="DBTextAnalyzerModel.FK_PhraseWords_Phrases" ManuallyRouted="false" />
+        <AssociationConnector Association="DBTextAnalyzerModel.FK_PhraseWords_Words" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

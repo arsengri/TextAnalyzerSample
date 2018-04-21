@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBTextAnalyzerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Phrases">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogID" Type="int" Nullable="false" />
+          <Property Name="Phrase" Type="nvarchar(max)" />
+          <Property Name="SeqNo" Type="int" />
+        </EntityType>
+        <EntityType Name="PhraseWords">
+          <Key>
+            <PropertyRef Name="PhraseID" />
+            <PropertyRef Name="WordID" />
+          </Key>
+          <Property Name="PhraseID" Type="int" Nullable="false" />
+          <Property Name="WordID" Type="int" Nullable="false" />
+          <Property Name="SeqNo" Type="int" />
+        </EntityType>
+        <EntityType Name="TextLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SourceText" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Words">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Word" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_Phrases_TextLog">
+          <End Role="TextLog" Type="Self.TextLog" Multiplicity="1" />
+          <End Role="Phrases" Type="Self.Phrases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TextLog">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phrases">
+              <PropertyRef Name="LogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhraseWords_Phrases">
+          <End Role="Phrases" Type="Self.Phrases" Multiplicity="1" />
+          <End Role="PhraseWords" Type="Self.PhraseWords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phrases">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhraseWords">
+              <PropertyRef Name="PhraseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhraseWords_Words">
+          <End Role="Words" Type="Self.Words" Multiplicity="1" />
+          <End Role="PhraseWords" Type="Self.PhraseWords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Words">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhraseWords">
+              <PropertyRef Name="WordID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBTextAnalyzerModelStoreContainer">
+          <EntitySet Name="Phrases" EntityType="Self.Phrases" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhraseWords" EntityType="Self.PhraseWords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TextLog" EntityType="Self.TextLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Words" EntityType="Self.Words" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Phrases_TextLog" Association="Self.FK_Phrases_TextLog">
+            <End Role="TextLog" EntitySet="TextLog" />
+            <End Role="Phrases" EntitySet="Phrases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhraseWords_Phrases" Association="Self.FK_PhraseWords_Phrases">
+            <End Role="Phrases" EntitySet="Phrases" />
+            <End Role="PhraseWords" EntitySet="PhraseWords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhraseWords_Words" Association="Self.FK_PhraseWords_Words">
+            <End Role="Words" EntitySet="Words" />
+            <End Role="PhraseWords" EntitySet="PhraseWords" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBTextAnalyzerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Phras">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogID" Type="Int32" Nullable="false" />
+          <Property Name="Phrase" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SeqNo" Type="Int32" />
+          <NavigationProperty Name="TextLog" Relationship="Self.FK_Phrases_TextLog" FromRole="Phrases" ToRole="TextLog" />
+          <NavigationProperty Name="PhraseWords" Relationship="Self.FK_PhraseWords_Phrases" FromRole="Phrases" ToRole="PhraseWords" />
+        </EntityType>
+        <EntityType Name="PhraseWord">
+          <Key>
+            <PropertyRef Name="PhraseID" />
+            <PropertyRef Name="WordID" />
+          </Key>
+          <Property Name="PhraseID" Type="Int32" Nullable="false" />
+          <Property Name="WordID" Type="Int32" Nullable="false" />
+          <Property Name="SeqNo" Type="Int32" />
+          <NavigationProperty Name="Phras" Relationship="Self.FK_PhraseWords_Phrases" FromRole="PhraseWords" ToRole="Phrases" />
+          <NavigationProperty Name="Word" Relationship="Self.FK_PhraseWords_Words" FromRole="PhraseWords" ToRole="Words" />
+        </EntityType>
+        <EntityType Name="TextLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Phrases" Relationship="Self.FK_Phrases_TextLog" FromRole="TextLog" ToRole="Phrases" />
+        </EntityType>
+        <EntityType Name="Word">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Word1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PhraseWords" Relationship="Self.FK_PhraseWords_Words" FromRole="Words" ToRole="PhraseWords" />
+        </EntityType>
+        <Association Name="FK_Phrases_TextLog">
+          <End Role="TextLog" Type="Self.TextLog" Multiplicity="1" />
+          <End Role="Phrases" Type="Self.Phras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TextLog">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Phrases">
+              <PropertyRef Name="LogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhraseWords_Phrases">
+          <End Role="Phrases" Type="Self.Phras" Multiplicity="1" />
+          <End Role="PhraseWords" Type="Self.PhraseWord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phrases">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhraseWords">
+              <PropertyRef Name="PhraseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhraseWords_Words">
+          <End Role="Words" Type="Self.Word" Multiplicity="1" />
+          <End Role="PhraseWords" Type="Self.PhraseWord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Words">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhraseWords">
+              <PropertyRef Name="WordID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBTextAnalyzerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Phrases" EntityType="Self.Phras" />
+          <EntitySet Name="PhraseWords" EntityType="Self.PhraseWord" />
+          <EntitySet Name="TextLogs" EntityType="Self.TextLog" />
+          <EntitySet Name="Words" EntityType="Self.Word" />
+          <AssociationSet Name="FK_Phrases_TextLog" Association="Self.FK_Phrases_TextLog">
+            <End Role="TextLog" EntitySet="TextLogs" />
+            <End Role="Phrases" EntitySet="Phrases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhraseWords_Phrases" Association="Self.FK_PhraseWords_Phrases">
+            <End Role="Phrases" EntitySet="Phrases" />
+            <End Role="PhraseWords" EntitySet="PhraseWords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhraseWords_Words" Association="Self.FK_PhraseWords_Words">
+            <End Role="Words" EntitySet="Words" />
+            <End Role="PhraseWords" EntitySet="PhraseWords" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBTextAnalyzerModelStoreContainer" CdmEntityContainer="DBTextAnalyzerEntities">
+          <EntitySetMapping Name="Phrases">
+            <EntityTypeMapping TypeName="DBTextAnalyzerModel.Phras">
+              <MappingFragment StoreEntitySet="Phrases">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="Phrase" ColumnName="Phrase" />
+                <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhraseWords">
+            <EntityTypeMapping TypeName="DBTextAnalyzerModel.PhraseWord">
+              <MappingFragment StoreEntitySet="PhraseWords">
+                <ScalarProperty Name="PhraseID" ColumnName="PhraseID" />
+                <ScalarProperty Name="WordID" ColumnName="WordID" />
+                <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TextLogs">
+            <EntityTypeMapping TypeName="DBTextAnalyzerModel.TextLog">
+              <MappingFragment StoreEntitySet="TextLog">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SourceText" ColumnName="SourceText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Words">
+            <EntityTypeMapping TypeName="DBTextAnalyzerModel.Word">
+              <MappingFragment StoreEntitySet="Words">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Word1" ColumnName="Word" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace TextAnalyzer
 {
-    /// <summary>
-    /// This class is used to create object model to be serialized as JSON and used in Data layer to update Database
-    /// </summary>
+    
+
+    
     public class SourceModel
 	{
 
@@ -15,9 +15,6 @@ namespace TextAnalyzer
 		[JsonIgnore]
         public string SouceTxt { get; set; }
 
-        /// <summary>
-        /// List of senctences in the text
-        /// </summary>
         [JsonProperty(PropertyName = "sentenceCount")]
         public int SentenceCount
 		{
@@ -28,9 +25,7 @@ namespace TextAnalyzer
 		}
 	}
 
-   /// <summary>
-   /// Senctne node in main model
-   /// </summary>
+   
 	public class Sentence
 	{
         [JsonIgnore]
@@ -48,16 +43,10 @@ namespace TextAnalyzer
 			}
 		}
 
-        /// <summary>
-        /// List of words in the Sentence
-        /// </summary>
         [JsonProperty(PropertyName = "lettersBreakDown")]
 		public List<Word> Words { get; set; }
 	}
-    
-    /// <summary>
-    /// Word node in main model
-    /// </summary>
+
 	public class Word
 	{
         [JsonProperty(PropertyName = "wordNumber")]

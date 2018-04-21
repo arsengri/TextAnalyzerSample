@@ -26,29 +26,45 @@ namespace TextAnalyzer
             }
 
 
-            Console.WriteLine("entered text - >" + input);
+           // Console.WriteLine("entered text - >" + input);
 
 
-
+            
             ITextParser parser = new RegExParser();
 
             IBuilder m2 = new ModelBuidler(parser, input);
 
 			m2.Build();
 
-		
 
-           
+            
+            
+           Console.WriteLine("JSON:");
+
+            Console.WriteLine(JSONPrinter.Model2Json(m2.getModel()));
+
 
             /* DB insert */
+            Console.WriteLine(Environment.NewLine + "Updating Database... ");
+
 
             Data.DataManager dm = new Data.DataManager();
 
-            dm.SaveModelToDB(m2.getModel());
+            try
+            {
+                dm.SaveModelToDB(m2.getModel());
+                Console.WriteLine("Database Updated");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Database Update Failed.");
+                Console.WriteLine(ex.Message);
+                
+            }
 
-            /***/
 
-            Console.WriteLine(JSONPrinter.Model2Json(m2.getModel()));
+            /* End Of DB Insert*/
+
             Console.ReadKey();
         }
     }

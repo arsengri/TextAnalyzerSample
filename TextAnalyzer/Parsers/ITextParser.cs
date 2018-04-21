@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace TextAnalyzer
 {
+    /// <summary>
+    /// Exposes  methods to parse a Text
+    /// </summary>
 	public interface ITextParser
 	{
 

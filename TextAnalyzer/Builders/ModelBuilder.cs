@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace TextAnalyzer
 {
+    /// <summary>
+    /// Provides methods to build model. 
+    /// </summary>
 	public class ModelBuidler : IBuilder
 	{
 
