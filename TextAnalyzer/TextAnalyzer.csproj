@@ -103,7 +103,6 @@
     <Compile Include="Data\Repos\UnitOfWork.cs" />
     <Compile Include="Tools\JSONPrinter.cs" />
     <Compile Include="Tools\ModelException.cs" />
-    <Compile Include="Tools\ModelValidator.cs" />
     <Compile Include="Models\SourceModel.cs" />
     <Compile Include="Builders\ModelBuilder.cs" />
     <Compile Include="Parsers\ITextParser.cs" />

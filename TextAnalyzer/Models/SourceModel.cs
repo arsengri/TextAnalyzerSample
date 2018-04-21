@@ -22,10 +22,12 @@ namespace TextAnalyzer
         public int SentenceCount
 		{
 			get
-			{ 
+			{  
                 return Sentences.Count;
 			}
 		}
+
+       
 	}
 
    /// <summary>

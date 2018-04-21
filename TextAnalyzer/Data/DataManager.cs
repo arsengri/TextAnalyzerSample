@@ -8,62 +8,85 @@ using TextAnalyzer.Data.Repos;
 
 namespace TextAnalyzer.Data
 {
+    /// <summary>
+    /// Provides service methods to validate and save model to DB 
+    /// </summary>
     class DataManager
     {
         DBTextAnalyzerEntities db = new DBTextAnalyzerEntities();
 
         private UnitOfWork unitOfWork = new UnitOfWork();
+
+        private bool ValidateModel(SourceModel model)
+        {
+           bool isValid = true;
+
+            if (model.Sentences == null)
+            {
+                isValid = false;
+            }
+            else
+            {
+                var wordsList = model.Sentences.Where(w => w.Words != null).FirstOrDefault();
+                if (wordsList == null)
+                {
+                    isValid = false;
+                }
+            }
+           
+            return isValid;
+        }
+
         public void SaveModelToDB(SourceModel m)
         {
-             
-            
+
+            if (!ValidateModel(m))
+            {
+                throw new ModelNotPopulatedException();
+            }
+
             TextLog log = new TextLog();
             log.SourceText = m.SouceTxt;
             unitOfWork.TextLogRepository.Insert(log);
 
 
-            foreach( Sentence s in m.Sentences)
+            foreach( Sentence senctence in m.Sentences)
             {
                 Phras p = new Phras
                 {
-                    Phrase = s.SentenceTxt,
-                    SeqNo = s.SentenceNumber,
+                    Phrase = senctence.SentenceTxt,
+                    SeqNo = senctence.SentenceNumber,
                     TextLog = log
                 };
 
                 unitOfWork.PhraseRepository.Insert(p); 
 
-                foreach( var w in s.Words)
+                foreach( var word in senctence.Words)
                 {
-                    Data.Word dw = unitOfWork.WordRepository.Get(filter: f => f.Word1.Equals(w.wordTxt)).FirstOrDefault();
+                    Data.Word dbWord = unitOfWork.WordRepository.Get(filter: f => f.Word1.Equals(word.wordTxt)).FirstOrDefault();
                        
-                    
 
-                    if(dw == null)
+                    if(dbWord == null)
                     {
-                         dw = new Word
+                         dbWord = new Word
                         {
-                            Word1 = w.wordTxt
+                            Word1 = word.wordTxt
                         };
                     }
 
                     PhraseWord pw = new PhraseWord
                     {
                         Phras = p,
-                        Word = dw,
-                        SeqNo = w.WordNumber
+                        Word = dbWord,
+                        SeqNo = word.WordNumber
                     };
 
                     unitOfWork.PhraseWordRepository.Insert(pw);
-
-
+                    
                 }
 
             }
-
-
-
-
+            
 
             unitOfWork.Save();
 

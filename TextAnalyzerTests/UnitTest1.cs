@@ -13,6 +13,7 @@ namespace TextAnalyzerTests
 
             Sentence s = new Sentence();
 
+            
             Assert.IsTrue(s.WordsCount == 1);
         }
     }

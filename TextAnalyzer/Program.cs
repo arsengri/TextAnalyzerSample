@@ -11,7 +11,8 @@ namespace TextAnalyzer
         static void Main(string[] args)
         {
 
-            //string input = "Deberíamos haber hecho más. No lo defiendo, sino que trato de explicarlo. Asdasd asdasdasd.";
+           
+            //string input = "Deberíamos haber hecho más. No lo defiendo, sino que trato de explicarlo.";
 
             string input = string.Empty;
 

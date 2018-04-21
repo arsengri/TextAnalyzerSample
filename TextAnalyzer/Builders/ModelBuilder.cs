@@ -75,5 +75,7 @@ namespace TextAnalyzer
 			n++;
 		}
 
+
+      
 	}
 }

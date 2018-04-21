@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextAnalyzer.Tools
+namespace TextAnalyzer
 {
     
-    class ModelNotPopulatedException : Exception
+    public class ModelNotPopulatedException : Exception
     {
         public ModelNotPopulatedException()
         {
