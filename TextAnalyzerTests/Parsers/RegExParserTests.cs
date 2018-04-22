@@ -25,9 +25,8 @@ namespace TextAnalyzer.Tests
         [TestMethod()]
         public void GetSentencesListTest()
         {
-          
-
-            var list = parser.GetSentencesList("One Phrase. Second Phrase");
+         
+            var list = parser.GetSentencesList("One Phrase. Second Phrase.");
 
             Assert.AreEqual(2, list.Count);
         }
@@ -35,11 +34,8 @@ namespace TextAnalyzer.Tests
         [TestMethod()]
         public void GetWordsListTest()
         {
-            RegExParser parser = new RegExParser();
-
             var list = parser.GetWordsList("One Phrase.");
-
-
+            
             Assert.AreEqual(2, list.Count);
         }
 

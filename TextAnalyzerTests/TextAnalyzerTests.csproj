@@ -57,9 +57,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Builders\ModelBuidlerTests.cs" />
+    <Compile Include="Data\DataManagerTests.cs" />
     <Compile Include="Parsers\RegExParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

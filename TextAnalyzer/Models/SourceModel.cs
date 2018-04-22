@@ -23,7 +23,7 @@ namespace TextAnalyzer
 		{
 			get
 			{  
-                return Sentences.Count;
+                return Sentences != null ? Sentences.Count : 0 ;
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace TextAnalyzer
 		{
 			get
 			{
-				return Words.Count;
+				return Words != null ? Words.Count : 0;
 			}
 		}
 

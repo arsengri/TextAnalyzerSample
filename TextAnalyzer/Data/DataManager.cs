@@ -11,17 +11,15 @@ namespace TextAnalyzer.Data
     /// <summary>
     /// Provides service methods to validate and save model to DB 
     /// </summary>
-    class DataManager
+    public class DataManager
     {
-        DBTextAnalyzerEntities db = new DBTextAnalyzerEntities();
-
-        private UnitOfWork unitOfWork = new UnitOfWork();
 
         private bool ValidateModel(SourceModel model)
         {
            bool isValid = true;
 
-            if (model.Sentences == null)
+
+            if (model == null || model.Sentences == null)
             {
                 isValid = false;
             }
@@ -45,50 +43,56 @@ namespace TextAnalyzer.Data
                 throw new ModelNotPopulatedException();
             }
 
-            TextLog log = new TextLog();
-            log.SourceText = m.SouceTxt;
-            unitOfWork.TextLogRepository.Insert(log);
-
-
-            foreach( Sentence senctence in m.Sentences)
+            using (var context = new DBTextAnalyzerEntities())
             {
-                Phras p = new Phras
+
+                UnitOfWork unitOfWork = new UnitOfWork(context);
+
+                
+                TextLog log = new TextLog();
+                log.SourceText = m.SouceTxt;
+                unitOfWork.TextLogRepository.Insert(log);
+
+
+                foreach (Sentence senctence in m.Sentences)
                 {
-                    Phrase = senctence.SentenceTxt,
-                    SeqNo = senctence.SentenceNumber,
-                    TextLog = log
-                };
-
-                unitOfWork.PhraseRepository.Insert(p); 
-
-                foreach( var word in senctence.Words)
-                {
-                    Data.Word dbWord = unitOfWork.WordRepository.Get(filter: f => f.Word1.Equals(word.wordTxt)).FirstOrDefault();
-                       
-
-                    if(dbWord == null)
+                    Phras p = new Phras
                     {
-                         dbWord = new Word
-                        {
-                            Word1 = word.wordTxt
-                        };
-                    }
-
-                    PhraseWord pw = new PhraseWord
-                    {
-                        Phras = p,
-                        Word = dbWord,
-                        SeqNo = word.WordNumber
+                        Phrase = senctence.SentenceTxt,
+                        SeqNo = senctence.SentenceNumber,
+                        TextLog = log
                     };
 
-                    unitOfWork.PhraseWordRepository.Insert(pw);
-                    
+                    unitOfWork.PhraseRepository.Insert(p);
+
+                    foreach (var word in senctence.Words)
+                    {
+                        Data.Word dbWord = unitOfWork.WordRepository.Get(filter: f => f.Word1.Equals(word.wordTxt)).FirstOrDefault();
+
+
+                        if (dbWord == null)
+                        {
+                            dbWord = new Word
+                            {
+                                Word1 = word.wordTxt
+                            };
+                        }
+
+                        PhraseWord pw = new PhraseWord
+                        {
+                            Phras = p,
+                            Word = dbWord,
+                            SeqNo = word.WordNumber
+                        };
+
+                        unitOfWork.PhraseWordRepository.Insert(pw);
+
+                    }
+
                 }
-
+                
+                unitOfWork.Save();
             }
-            
-
-            unitOfWork.Save();
 
         }
     }

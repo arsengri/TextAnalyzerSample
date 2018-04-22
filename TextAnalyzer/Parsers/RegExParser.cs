@@ -23,8 +23,20 @@ namespace TextAnalyzer
 		{
 			// take it simple, but can be hard 
 			string[] substrings = Regex.Split(strText, sentanceBreakerRegEx);
+            
+            var strList = new List<string>(substrings);
 
-			return new List<string>(substrings);
+            // remove ending dot
+            if (strList != null)
+            {
+                for (int i = 0; i < strList.Count; i++)
+                {
+                    strList[i] = strList[i].TrimEnd('.');
+                }
+            }
+            //
+
+            return strList;
 
 		}
 

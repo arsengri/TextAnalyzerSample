@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,15 +10,23 @@ namespace TextAnalyzer.Data.Repos
 {
     public class UnitOfWork : IDisposable
     {
-        private DBTextAnalyzerEntities context = new DBTextAnalyzerEntities();
-        private GenericRepository<TextLog> textLogRepo;
-        private GenericRepository<Phras> phraseRepo;
-        private GenericRepository<Data.Word> wordRepo;
-        private GenericRepository<PhraseWord> phraseWordRepo;
+        private DbContext context;
+        private IGenericRepository<TextLog> textLogRepo;
+        private IGenericRepository<Phras> phraseRepo;
+        private IGenericRepository<Data.Word> wordRepo;
+        private IGenericRepository<PhraseWord> phraseWordRepo;
+
+        public UnitOfWork()
+        {
+          this.context = new DBTextAnalyzerEntities();
+        }
+        public UnitOfWork(DbContext context)
+        {
+            this.context = context;
+        }
 
 
-
-        public GenericRepository<TextLog> TextLogRepository
+        public IGenericRepository<TextLog> TextLogRepository
         {
             get
             {
@@ -29,7 +38,7 @@ namespace TextAnalyzer.Data.Repos
             }
         }
 
-        public GenericRepository<Phras> PhraseRepository
+        public IGenericRepository<Phras> PhraseRepository
         {
             get
             {
@@ -41,7 +50,7 @@ namespace TextAnalyzer.Data.Repos
             }
         }
 
-        public GenericRepository<Data.Word> WordRepository
+        public IGenericRepository<Data.Word> WordRepository
         {
             get
             {
@@ -53,7 +62,7 @@ namespace TextAnalyzer.Data.Repos
             }
         }
 
-        public GenericRepository<PhraseWord> PhraseWordRepository
+        public IGenericRepository<PhraseWord> PhraseWordRepository
         {
             get
             {

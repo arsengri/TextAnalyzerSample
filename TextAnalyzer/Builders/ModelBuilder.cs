@@ -29,6 +29,10 @@ namespace TextAnalyzer
 
 		public void Build()
 		{
+            if (string.IsNullOrWhiteSpace(inputText))
+            {
+                return;
+            }
 
 			var parsedSentences = textParser.GetSentencesList(inputText);
 

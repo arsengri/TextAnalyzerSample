@@ -11,34 +11,35 @@ namespace TextAnalyzer.Tests
     [TestClass()]
     public class ModelBuidlerTests
     {
-
-        [TestMethod()]
-        public void BuiltModelTypeTest()
+        static public IBuilder b;
+        [ClassInitialize]
+        public static void init(TestContext context)
         {
-            IBuilder b = new ModelBuidler(new RegExParser(), "One String. Two String");
+           b = new ModelBuidler(new RegExParser(), "One String. Two String.");
 
-            b.Build();
+           b.Build();
 
-            var s = b.getModel();
-
-
-            Assert.IsTrue(s is SourceModel);
         }
 
         [TestMethod()]
         public void BuiltModelTest()
         {
-            IBuilder b = new ModelBuidler(new RegExParser(), "One String. Two String");
-
-            b.Build();
-
+           
             SourceModel s = b.getModel();
 
-            
              
             Assert.IsTrue(s.SentenceCount == 2);
             Assert.IsTrue(s.Sentences[0].WordsCount == 2);
             Assert.IsTrue(s.Sentences[0].WordsCount == 2);
+        }
+
+        [TestMethod()]
+        public void BuiltModelTypeTest()
+        {
+          
+            var s = b.getModel();
+            
+            Assert.IsTrue(s is SourceModel);
         }
     }
 }
