@@ -16,9 +16,9 @@
         </EntityType>
         <EntityType Name="PhraseWords">
           <Key>
-            <PropertyRef Name="PhraseID" />
-            <PropertyRef Name="WordID" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PhraseID" Type="int" Nullable="false" />
           <Property Name="WordID" Type="int" Nullable="false" />
           <Property Name="SeqNo" Type="int" />
@@ -49,30 +49,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PhraseWords_Phrases">
-          <End Role="Phrases" Type="Self.Phrases" Multiplicity="1" />
-          <End Role="PhraseWords" Type="Self.PhraseWords" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Phrases">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PhraseWords">
-              <PropertyRef Name="PhraseID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PhraseWords_Words">
-          <End Role="Words" Type="Self.Words" Multiplicity="1" />
-          <End Role="PhraseWords" Type="Self.PhraseWords" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Words">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PhraseWords">
-              <PropertyRef Name="WordID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="DBTextAnalyzerModelStoreContainer">
           <EntitySet Name="Phrases" EntityType="Self.Phrases" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhraseWords" EntityType="Self.PhraseWords" Schema="dbo" store:Type="Tables" />
@@ -81,14 +57,6 @@
           <AssociationSet Name="FK_Phrases_TextLog" Association="Self.FK_Phrases_TextLog">
             <End Role="TextLog" EntitySet="TextLog" />
             <End Role="Phrases" EntitySet="Phrases" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PhraseWords_Phrases" Association="Self.FK_PhraseWords_Phrases">
-            <End Role="Phrases" EntitySet="Phrases" />
-            <End Role="PhraseWords" EntitySet="PhraseWords" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PhraseWords_Words" Association="Self.FK_PhraseWords_Words">
-            <End Role="Words" EntitySet="Words" />
-            <End Role="PhraseWords" EntitySet="PhraseWords" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -108,14 +76,14 @@
         </EntityType>
         <EntityType Name="PhraseWord">
           <Key>
-            <PropertyRef Name="PhraseID" />
-            <PropertyRef Name="WordID" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="PhraseID" Type="Int32" Nullable="false" />
           <Property Name="WordID" Type="Int32" Nullable="false" />
           <Property Name="SeqNo" Type="Int32" />
           <NavigationProperty Name="Phras" Relationship="Self.FK_PhraseWords_Phrases" FromRole="PhraseWords" ToRole="Phrases" />
           <NavigationProperty Name="Word" Relationship="Self.FK_PhraseWords_Words" FromRole="PhraseWords" ToRole="Words" />
+          <Property Name="ID" Nullable="false" Type="Int32" />
         </EntityType>
         <EntityType Name="TextLog">
           <Key>
@@ -206,6 +174,7 @@
           <EntitySetMapping Name="PhraseWords">
             <EntityTypeMapping TypeName="DBTextAnalyzerModel.PhraseWord">
               <MappingFragment StoreEntitySet="PhraseWords">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PhraseID" ColumnName="PhraseID" />
                 <ScalarProperty Name="WordID" ColumnName="WordID" />
                 <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />

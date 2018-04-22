@@ -56,14 +56,14 @@ namespace TextAnalyzer.Data
 
                 foreach (Sentence senctence in m.Sentences)
                 {
-                    Phras p = new Phras
+                    Phras phrase = new Phras
                     {
                         Phrase = senctence.SentenceTxt,
                         SeqNo = senctence.SentenceNumber,
                         TextLog = log
                     };
 
-                    unitOfWork.PhraseRepository.Insert(p);
+                    unitOfWork.PhraseRepository.Insert(phrase);
 
                     foreach (var word in senctence.Words)
                     {
@@ -72,15 +72,18 @@ namespace TextAnalyzer.Data
 
                         if (dbWord == null)
                         {
-                            dbWord = new Word
+                            
+                            dbWord = new Data.Word
                             {
                                 Word1 = word.wordTxt
                             };
+                            unitOfWork.WordRepository.Insert(dbWord);
+                            
                         }
 
                         PhraseWord pw = new PhraseWord
                         {
-                            Phras = p,
+                            Phras = phrase,
                             Word = dbWord,
                             SeqNo = word.WordNumber
                         };

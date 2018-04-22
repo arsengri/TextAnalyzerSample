@@ -17,6 +17,7 @@ namespace TextAnalyzer.Data
         public int PhraseID { get; set; }
         public int WordID { get; set; }
         public Nullable<int> SeqNo { get; set; }
+        public int ID { get; set; }
     
         public virtual Phras Phras { get; set; }
         public virtual Word Word { get; set; }
