@@ -11,22 +11,22 @@ namespace TextAnalyzer.Data.Tests
     [TestClass()]
     public class DataManagerTests
     {
-        static public IBuilder b;
+        static public ITextProcessor b;
         [ClassInitialize]
         public static void init(TestContext context)
         {
-            b = new ModelBuidler(new RegExParser(), "  ");
+            b = new TextProcessor(new RegExParser(), "  ");
 
-            b.Build();
+            b.ProcessText();
 
         }
         [TestMethod()]
         [ExpectedException(typeof(ModelNotPopulatedException))]
-        public void SaveEmptyModelToDBTest()
+        public void PreventSavingOfEmptyModelToDBTest()
         {
 
             DataManager dm = new DataManager();
-            dm.SaveModelToDB(b.getModel());
+            dm.SaveModelToDB(b.GetTextModel());
             // Assert.Fail();
         }
 

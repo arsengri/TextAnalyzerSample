@@ -39,7 +39,15 @@ namespace TextAnalyzer.Tests
             Assert.AreEqual(2, list.Count);
         }
 
+        [TestMethod()]
+        public void RemovingDotFromSentenceTest()
+        {
+            var list = parser.GetSentencesList("One Phrase. Second Phrase.");
+          
+            Assert.AreEqual("One Phrase".Length, list[0].Length);
+        }
 
-      
+
+
     }
 }

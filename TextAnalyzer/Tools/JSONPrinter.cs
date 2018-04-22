@@ -9,13 +9,8 @@ namespace TextAnalyzer
 {
     class JSONPrinter
     {
-        public static string PrintOut(Object model)
-        {
-            var json = new JavaScriptSerializer().Serialize(model);
-            return json;
-        }
-
-		public static string Model2Json(Object model)
+        
+		public static string Model2Json(IJSONModel model)
 		{
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(model);
 			return json;

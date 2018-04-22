@@ -14,7 +14,7 @@ namespace TextAnalyzer.Data
     public class DataManager
     {
 
-        private bool ValidateModel(SourceModel model)
+        private bool ValidateModel(ITextModel model)
         {
            bool isValid = true;
 
@@ -35,10 +35,10 @@ namespace TextAnalyzer.Data
             return isValid;
         }
 
-        public void SaveModelToDB(SourceModel m)
+        public void SaveModelToDB(ITextModel model)
         {
 
-            if (!ValidateModel(m))
+            if (!ValidateModel(model))
             {
                 throw new ModelNotPopulatedException();
             }
@@ -50,15 +50,15 @@ namespace TextAnalyzer.Data
 
                 
                 TextLog log = new TextLog();
-                log.SourceText = m.SouceTxt;
+                log.SourceText = model.SourceText;
                 unitOfWork.TextLogRepository.Insert(log);
 
 
-                foreach (Sentence senctence in m.Sentences)
+                foreach (Sentence senctence in model.Sentences)
                 {
                     Phras phrase = new Phras
                     {
-                        Phrase = senctence.SentenceTxt,
+                        Phrase = senctence.SentenceText,
                         SeqNo = senctence.SentenceNumber,
                         TextLog = log
                     };
@@ -67,7 +67,7 @@ namespace TextAnalyzer.Data
 
                     foreach (var word in senctence.Words)
                     {
-                        Data.Word dbWord = unitOfWork.WordRepository.Get(filter: f => f.Word1.Equals(word.wordTxt)).FirstOrDefault();
+                        Data.Word dbWord = unitOfWork.WordRepository.Get(filter: f => f.Word1.Equals(word.WordText)).FirstOrDefault();
 
 
                         if (dbWord == null)
@@ -75,7 +75,7 @@ namespace TextAnalyzer.Data
                             
                             dbWord = new Data.Word
                             {
-                                Word1 = word.wordTxt
+                                Word1 = word.WordText
                             };
                             unitOfWork.WordRepository.Insert(dbWord);
                             

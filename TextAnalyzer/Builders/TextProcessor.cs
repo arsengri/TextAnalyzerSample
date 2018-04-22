@@ -6,28 +6,36 @@ namespace TextAnalyzer
     /// <summary>
     /// Provides methods to build model. 
     /// </summary>
-	public class ModelBuidler : IBuilder
+	public class TextProcessor : ITextProcessor
 	{
 
         private ITextParser textParser;
 
 		private string inputText;
-        private SourceModel model;
+        private ITextModel model;
+        private IJSONModel modelJSON;
 
 		 
 
-		public ModelBuidler(ITextParser textParser, string input)
+		public TextProcessor(ITextParser textParser, string input)
 		{
             this.inputText = input;
 			this.textParser = textParser;
 		}
 
-		public SourceModel getModel()
+		public ITextModel GetTextModel()
 		{
 			return model;
 		}
 
-		public void Build()
+        public IJSONModel GetJSONModel()
+        {
+            modelJSON = (IJSONModel)model; //for now it is same object
+            return modelJSON; 
+           
+        }
+
+        public void ProcessText()
 		{
             if (string.IsNullOrWhiteSpace(inputText))
             {
@@ -36,10 +44,10 @@ namespace TextAnalyzer
 
 			var parsedSentences = textParser.GetSentencesList(inputText);
 
-            model = new SourceModel
+            model = new SourceModel 
             {
-                Sentences = new List<Sentence>(),
-                SouceTxt = inputText
+                Sentences = new List<ISentence>(),
+                SourceText = inputText
             };
 
             int n = 1;
@@ -50,9 +58,9 @@ namespace TextAnalyzer
 
                 Sentence sentenceObj = new Sentence
                 {
-                    SentenceTxt = senctence,
+                    SentenceText = senctence,
                     SentenceNumber = n,
-                    Words = new List<Word>()
+                    Words = new List<IWord>()
                 };
 
 
@@ -63,7 +71,7 @@ namespace TextAnalyzer
                     {
                         WordNumber = i,
                         LettersCount = word.Length,
-                        wordTxt = word
+                        WordText = word
                     };
 
                     sentenceObj.Words.Add(wordObj);
@@ -73,10 +81,9 @@ namespace TextAnalyzer
 
                 model.Sentences.Add(sentenceObj);
 
-			}
-
+                n++;
+            }
             
-			n++;
 		}
 
 

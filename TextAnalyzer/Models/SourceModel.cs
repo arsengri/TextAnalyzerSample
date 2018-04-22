@@ -6,14 +6,14 @@ namespace TextAnalyzer
     /// <summary>
     /// This class is used to create object model to be serialized as JSON and used in Data layer to update Database
     /// </summary>
-    public class SourceModel
+    public class SourceModel : ITextModel, IJSONModel
 	{
 
         [JsonProperty(PropertyName = "wordsBreakDown")] 
-		public List<Sentence> Sentences { get; set; }
+		public List<ISentence> Sentences { get; set; }
 
 		[JsonIgnore]
-        public string SouceTxt { get; set; }
+        public string SourceText { get; set; }
 
         /// <summary>
         /// List of senctences in the text
@@ -33,10 +33,10 @@ namespace TextAnalyzer
    /// <summary>
    /// Senctne node in main model
    /// </summary>
-	public class Sentence
+	public class Sentence : ISentence
 	{
         [JsonIgnore]
-        public string SentenceTxt { get; set; }
+        public string SentenceText { get; set; }
 
         [JsonProperty(PropertyName = "sentenceNumber")]
         public int SentenceNumber { get; set; }
@@ -54,13 +54,13 @@ namespace TextAnalyzer
         /// List of words in the Sentence
         /// </summary>
         [JsonProperty(PropertyName = "lettersBreakDown")]
-		public List<Word> Words { get; set; }
+		public List<IWord> Words { get; set; }
 	}
     
     /// <summary>
     /// Word node in main model
     /// </summary>
-	public class Word
+	public class Word : IWord
 	{
         [JsonProperty(PropertyName = "wordNumber")]
         public int WordNumber { get; set; }
@@ -69,6 +69,6 @@ namespace TextAnalyzer
         public int LettersCount { get; set; }
 
         [JsonIgnore]
-        public string wordTxt { get; set; }
+        public string WordText { get; set; }
 	}
 }

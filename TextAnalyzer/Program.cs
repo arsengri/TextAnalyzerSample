@@ -11,14 +11,13 @@ namespace TextAnalyzer
         static void Main(string[] args)
         {
 
-           
             //string input = "Deberíamos haber hecho más. No lo defiendo, sino que trato de explicarlo.";
 
             string input = string.Empty;
 
             if(args == null || args.Length == 0)
             {
-                Console.WriteLine("Please etner text");
+                Console.WriteLine("Please etner text:");
                 input = Console.ReadLine();
             }
             else
@@ -26,34 +25,25 @@ namespace TextAnalyzer
                 input = args[0];
             }
 
-
-           // Console.WriteLine("entered text - >" + input);
-
-
             
             ITextParser parser = new RegExParser();
 
-            IBuilder m2 = new ModelBuidler(parser, input);
-
-			m2.Build();
-
+            ITextProcessor textProc = new TextProcessor(parser, input);
+			textProc.ProcessText();
 
             
-            
-           Console.WriteLine("JSON:");
-
-            Console.WriteLine(JSONPrinter.Model2Json(m2.getModel()));
+            Console.WriteLine("JSON:");
+            Console.WriteLine(JSONPrinter.Model2Json(textProc.GetJSONModel()));
 
 
             /* DB insert */
             Console.WriteLine(Environment.NewLine + "Updating Database... ");
 
-
             Data.DataManager dm = new Data.DataManager();
 
             try
             {
-                dm.SaveModelToDB(m2.getModel());
+                dm.SaveModelToDB(textProc.GetTextModel());
                 Console.WriteLine("Database Updated");
             }
             catch (Exception ex)
@@ -62,8 +52,7 @@ namespace TextAnalyzer
                 Console.WriteLine(ex.Message);
                 
             }
-
-
+            
             /* End Of DB Insert*/
 
             Console.ReadKey();
