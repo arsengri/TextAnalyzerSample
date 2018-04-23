@@ -147,13 +147,6 @@
       <DependentUpon>TextAnalyzerModel.edmx</DependentUpon>
       <LastGenOutput>TextAnalyzerModel.cs</LastGenOutput>
     </Content>
-    <Content Include="DBTextAnalyzer.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DBTextAnalyzer_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>DBTextAnalyzer.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
